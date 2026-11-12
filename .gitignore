@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# PyInstaller / Build outputs
+build/
+dist/
+*.spec
+*.manifest
+
+# Böyük Media və Binar Fayllar (GitHub 100MB limitini keçməmək üçün)
+ffmpeg.exe
+ffprobe.exe
+*.zip
+*.tar.gz
+
+# Müvəqqəti və İcra Faylları
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+

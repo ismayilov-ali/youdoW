@@ -4,6 +4,8 @@ YouDow - Modern YouTube Video & Audio Yükləyicisi
 Müəllif: Full-Stack Desktop Specialist
 Texnologiyalar: Python, CustomTkinter, yt-dlp, FFmpeg, Pillow
 Dillər: Azərbaycan dili (AZ), English (EN), Türkçe (TR)
+Xüsusiyyətlər: Multi-URL Yükləmə (Eyni anda 10 linkə qədər), Format/Keyfiyyət
+               seçimi, Fərdi fayl adı, Təhlükəsiz qovluq çıxarışı
 =============================================================================
 """
 
@@ -42,6 +44,10 @@ LANGUAGES = {
         "theme_system": "Sistem",
         "url_label": "YouTube Video və ya Playlist Linki:",
         "url_placeholder": "https://www.youtube.com/watch?v=... və ya Playlist linkini bura yapışdırın",
+        "multi_mode_switch": "⚡ Çoxlu Yükləmə (Multi-URL)",
+        "add_url_tooltip": "➕ Link Əlavə Et (Maks: 10)",
+        "max_urls_reached": "Maksimum 10 link əlavə edilə bilər!",
+        "multi_hint": "*Çoxlu rejimdə hər bir fayl öz orijinal YouTube adı ilə saxlanılacaq",
         "paste_btn": "📋 Yapışdır",
         "clear_btn": "✖ Təmizlə",
         "fetch_btn": "🔍 Məlumatı Al",
@@ -84,6 +90,9 @@ LANGUAGES = {
         "status_done": "🎉 Yükləmə uğurla tamamlandı!",
         "status_cancelled": "Yükləmə dayandırıldı.",
         "status_error": "Yükləmə zamanı xəta yarandı!",
+        "batch_status": "[{current}/{total}] Yüklənir: ",
+        "batch_done_status": "🎉 Çoxlu yükləmə tamamlandı! ({success}/{total} uğurlu)",
+        "batch_complete_msg": "{success}/{total} fayl uğurla yükləndi!\n\nSaxlanılan qovluğu açmaq istəyirsiniz?",
         "size_label": "Həcm: ",
         "speed_label": "Sürət: ",
         "eta_label": "Qalan Vaxt: ",
@@ -93,7 +102,7 @@ LANGUAGES = {
         "ffmpeg_active": "FFmpeg: Aktiv [✔]",
         "ffmpeg_missing": "FFmpeg: Tapılmadı [!] (Video birləşdirmə məhdud ola bilər)",
         "warn_title": "Xəbərdarlıq",
-        "warn_enter_url": "Zəhmət olmasa bir YouTube linki daxil edin!",
+        "warn_enter_url": "Zəhmət olmasa ən azı bir YouTube linki daxil edin!",
         "warn_no_dir": "Qeyd olunan qovluq mövcud deyil.",
         "error_title": "Xəta",
         "complete_title": "Tamamlandı!",
@@ -112,6 +121,10 @@ LANGUAGES = {
         "theme_system": "System",
         "url_label": "YouTube Video or Playlist URL:",
         "url_placeholder": "https://www.youtube.com/watch?v=... or paste playlist link here",
+        "multi_mode_switch": "⚡ Multi-Download (Batch URLs)",
+        "add_url_tooltip": "➕ Add URL (Max: 10)",
+        "max_urls_reached": "Maximum 10 URLs can be added!",
+        "multi_hint": "*In multi mode, files will be saved with their original YouTube titles",
         "paste_btn": "📋 Paste",
         "clear_btn": "✖ Clear",
         "fetch_btn": "🔍 Get Info",
@@ -154,6 +167,9 @@ LANGUAGES = {
         "status_done": "🎉 Download completed successfully!",
         "status_cancelled": "Download was cancelled.",
         "status_error": "An error occurred during download!",
+        "batch_status": "[{current}/{total}] Downloading: ",
+        "batch_done_status": "🎉 Multi-download completed! ({success}/{total} succeeded)",
+        "batch_complete_msg": "{success}/{total} files downloaded successfully!\n\nWould you like to open the destination folder?",
         "size_label": "Size: ",
         "speed_label": "Speed: ",
         "eta_label": "ETA: ",
@@ -163,7 +179,7 @@ LANGUAGES = {
         "ffmpeg_active": "FFmpeg: Active [✔]",
         "ffmpeg_missing": "FFmpeg: Not Found [!] (Video merging may be limited)",
         "warn_title": "Warning",
-        "warn_enter_url": "Please enter a valid YouTube URL!",
+        "warn_enter_url": "Please enter at least one valid YouTube URL!",
         "warn_no_dir": "The specified folder does not exist.",
         "error_title": "Error",
         "complete_title": "Completed!",
@@ -182,6 +198,10 @@ LANGUAGES = {
         "theme_system": "Sistem",
         "url_label": "YouTube Video veya Oynatma Listesi Bağlantısı:",
         "url_placeholder": "https://www.youtube.com/watch?v=... veya oynatma listesi linkini yapıştırın",
+        "multi_mode_switch": "⚡ Çoklu İndirme (Çoklu URL)",
+        "add_url_tooltip": "➕ Bağlantı Ekle (Maks: 10)",
+        "max_urls_reached": "En fazla 10 bağlantı eklenebilir!",
+        "multi_hint": "*Çoklu modda dosyalar orijinal YouTube başlıkları ile kaydedilir",
         "paste_btn": "📋 Yapıştır",
         "clear_btn": "✖ Temizle",
         "fetch_btn": "🔍 Bilgileri Getir",
@@ -224,6 +244,9 @@ LANGUAGES = {
         "status_done": "🎉 İndirme başarıyla tamamlandı!",
         "status_cancelled": "İndirme iptal edildi.",
         "status_error": "İndirme sırasında bir hata oluştu!",
+        "batch_status": "[{current}/{total}] İndiriliyor: ",
+        "batch_done_status": "🎉 Çoklu indirme tamamlandı! ({success}/{total} başarılı)",
+        "batch_complete_msg": "{success}/{total} dosya başarıyla indirildi!\n\nKayıt klasörünü açmak ister misiniz?",
         "size_label": "Boyut: ",
         "speed_label": "Hız: ",
         "eta_label": "Kalan Süre: ",
@@ -233,7 +256,7 @@ LANGUAGES = {
         "ffmpeg_active": "FFmpeg: Aktif [✔]",
         "ffmpeg_missing": "FFmpeg: Bulunamadı [!] (Video birleştirme sınırlı olabilir)",
         "warn_title": "Uyarı",
-        "warn_enter_url": "Lütfen geçerli bir YouTube bağlantısı girin!",
+        "warn_enter_url": "Lütfen en az bir geçerli YouTube bağlantısı girin!",
         "warn_no_dir": "Belirtilen klasör mevcut değil.",
         "error_title": "Hata",
         "complete_title": "Tamamlandı!",
@@ -352,8 +375,8 @@ class YouDowApp(ctk.CTk):
 
         # Pəncərənin əsas parametrləri
         self.title("YouDow - Modern YouTube Downloader")
-        self.geometry("940x820")
-        self.minsize(840, 720)
+        self.geometry("960x840")
+        self.minsize(860, 740)
 
         # Standart görünüş rejimi və rəng teması
         ctk.set_appearance_mode("dark")
@@ -361,6 +384,14 @@ class YouDowApp(ctk.CTk):
 
         # Cari dil (Standart: Azərbaycan dili)
         self.current_lang = "az"
+
+        # Multi-URL vəziyyətləri
+        self.multi_mode_var = ctk.BooleanVar(value=False)
+        self.max_urls = 10
+        self.url_entries = []
+        self.url_row_frames = []
+        self.current_download_index = 0
+        self.total_download_count = 0
 
         # Proqram vəziyyətləri (State variables)
         self.download_thread = None
@@ -395,7 +426,7 @@ class YouDowApp(ctk.CTk):
         # 1. Başlıq, Dil və Tema Keçidi
         self._create_header_section()
 
-        # 2. URL Daxil Etmə Bölməsi
+        # 2. URL Daxil Etmə Bölməsi (Multi-URL dəstəkli)
         self._create_url_section()
 
         # 3. Video Məlumatı / Önizləmə Kartı (Preview Card)
@@ -479,18 +510,47 @@ class YouDowApp(ctk.CTk):
         url_inner = ctk.CTkFrame(url_frame, fg_color="transparent")
         url_inner.pack(fill="x", padx=15, pady=12)
 
+        # Başlıq və Çoxlu Yükləmə Rejimi Switch-i
+        url_header_row = ctk.CTkFrame(url_inner, fg_color="transparent")
+        url_header_row.pack(fill="x", pady=(0, 6))
+
         self.url_lbl = ctk.CTkLabel(
-            url_inner,
+            url_header_row,
             text=self.t("url_label"),
             font=ctk.CTkFont(size=13, weight="bold")
         )
-        self.url_lbl.pack(anchor="w", pady=(0, 6))
+        self.url_lbl.pack(side="left")
 
-        input_row = ctk.CTkFrame(url_inner, fg_color="transparent")
-        input_row.pack(fill="x")
+        # Sağ tərəfdə Çoxlu Yükləmə Seçicisi və Sayğac
+        multi_box = ctk.CTkFrame(url_header_row, fg_color="transparent")
+        multi_box.pack(side="right")
+
+        self.url_count_badge = ctk.CTkLabel(
+            multi_box,
+            text="(1/10)",
+            font=ctk.CTkFont(size=12, weight="bold"),
+            text_color=("#1f538d", "#3a86ff")
+        )
+
+        self.multi_mode_switch = ctk.CTkSwitch(
+            multi_box,
+            text=self.t("multi_mode_switch"),
+            variable=self.multi_mode_var,
+            command=self._on_multi_mode_toggle,
+            font=ctk.CTkFont(size=12)
+        )
+        self.multi_mode_switch.pack(side="left", padx=(0, 8))
+
+        # URL Giriş Sətirləri üçün Konteyner
+        self.url_container = ctk.CTkFrame(url_inner, fg_color="transparent")
+        self.url_container.pack(fill="x")
+
+        # 1-ci Əsas URL Sətri
+        self.first_input_row = ctk.CTkFrame(self.url_container, fg_color="transparent")
+        self.first_input_row.pack(fill="x")
 
         self.url_entry = ctk.CTkEntry(
-            input_row,
+            self.first_input_row,
             placeholder_text=self.t("url_placeholder"),
             height=40,
             font=ctk.CTkFont(size=13)
@@ -498,8 +558,20 @@ class YouDowApp(ctk.CTk):
         self.url_entry.pack(side="left", fill="x", expand=True, padx=(0, 8))
         self.url_entry.bind("<Return>", lambda event: self._start_fetch_metadata())
 
+        # ➕ Düyməsi (Yalnız çoxlu rejimdə aktivləşir)
+        self.add_url_btn = ctk.CTkButton(
+            self.first_input_row,
+            text="➕",
+            width=42,
+            height=40,
+            font=ctk.CTkFont(size=16, weight="bold"),
+            fg_color="#2b9348",
+            hover_color="#1f6f36",
+            command=self._add_url_row
+        )
+
         self.paste_btn = ctk.CTkButton(
-            input_row,
+            self.first_input_row,
             text=self.t("paste_btn"),
             width=90,
             height=40,
@@ -508,7 +580,7 @@ class YouDowApp(ctk.CTk):
         self.paste_btn.pack(side="left", padx=(0, 8))
 
         self.clear_btn = ctk.CTkButton(
-            input_row,
+            self.first_input_row,
             text=self.t("clear_btn"),
             width=80,
             height=40,
@@ -519,15 +591,135 @@ class YouDowApp(ctk.CTk):
         self.clear_btn.pack(side="left", padx=(0, 8))
 
         self.fetch_btn = ctk.CTkButton(
-            input_row,
+            self.first_input_row,
             text=self.t("fetch_btn"),
             width=115,
             height=40,
-            fg_color="#2b9348",
-            hover_color="#1f6f36",
+            fg_color="#0077b6",
+            hover_color="#023e8a",
             command=self._start_fetch_metadata
         )
         self.fetch_btn.pack(side="left")
+
+        # İlkin sətirlər siyahısı
+        self.url_entries = [self.url_entry]
+
+    def _pack_first_row_controls(self):
+        """1-ci sətir idarəetmə düymələrinin səliqəli yerləşdirilməsi."""
+        self.add_url_btn.pack_forget()
+        self.paste_btn.pack_forget()
+        self.clear_btn.pack_forget()
+        self.fetch_btn.pack_forget()
+
+        if self.multi_mode_var.get():
+            self.add_url_btn.pack(side="left", padx=(0, 8))
+            self.url_count_badge.pack(side="left")
+        else:
+            self.url_count_badge.pack_forget()
+
+        self.paste_btn.pack(side="left", padx=(0, 8))
+        self.clear_btn.pack(side="left", padx=(0, 8))
+        self.fetch_btn.pack(side="left")
+
+    def _on_multi_mode_toggle(self):
+        """Çoxlu yükləmə rejimi aktivləşdirildikdə və ya söndürüldükdə."""
+        is_multi = self.multi_mode_var.get()
+        self._pack_first_row_controls()
+
+        if is_multi:
+            self.filename_hint.configure(text=self.t("multi_hint"))
+            self._update_url_count_badge()
+        else:
+            self.filename_hint.configure(text=self.t("filename_hint"))
+            # Əlavə sətirləri təmizləyirik
+            for rf in list(self.url_row_frames):
+                rf.destroy()
+            self.url_row_frames.clear()
+            self.url_entries = [self.url_entry]
+            self.add_url_btn.configure(state="normal")
+
+    def _update_url_count_badge(self):
+        count = len(self.url_entries)
+        self.url_count_badge.configure(text=f"({count}/{self.max_urls})")
+        if count >= self.max_urls:
+            self.add_url_btn.configure(state="disabled")
+        else:
+            self.add_url_btn.configure(state="normal")
+
+    def _add_url_row(self):
+        """Yeni bir URL giriş sətri əlavə edir (Maksimum 10 ədəd)."""
+        current_count = len(self.url_entries)
+        if current_count >= self.max_urls:
+            messagebox.showwarning(self.t("warn_title"), self.t("max_urls_reached"))
+            return
+
+        idx = current_count + 1
+
+        row_frame = ctk.CTkFrame(self.url_container, fg_color="transparent")
+        row_frame.pack(fill="x", pady=(6, 0))
+
+        # Nömrə nişanı
+        badge = ctk.CTkLabel(
+            row_frame,
+            text=f"#{idx}",
+            width=28,
+            font=ctk.CTkFont(size=12, weight="bold"),
+            text_color="gray"
+        )
+        badge.pack(side="left", padx=(0, 6))
+
+        # Giriş sahəsi
+        entry = ctk.CTkEntry(
+            row_frame,
+            placeholder_text=f"URL #{idx}: {self.t('url_placeholder')}",
+            height=38,
+            font=ctk.CTkFont(size=13)
+        )
+        entry.pack(side="left", fill="x", expand=True, padx=(0, 6))
+
+        # Yapışdır düyməsi
+        paste_btn = ctk.CTkButton(
+            row_frame,
+            text="📋",
+            width=42,
+            height=38,
+            command=lambda e=entry: self._paste_into_entry(e)
+        )
+        paste_btn.pack(side="left", padx=(0, 6))
+
+        # Sətiri sil düyməsi
+        del_btn = ctk.CTkButton(
+            row_frame,
+            text="🗑",
+            width=42,
+            height=38,
+            fg_color="#e63946",
+            hover_color="#b02a37",
+            command=lambda rf=row_frame, ent=entry: self._remove_url_row(rf, ent)
+        )
+        del_btn.pack(side="left")
+
+        self.url_entries.append(entry)
+        self.url_row_frames.append(row_frame)
+        self._update_url_count_badge()
+
+    def _remove_url_row(self, row_frame, entry):
+        """Əlavə edilmiş URL sətirini silir."""
+        row_frame.destroy()
+        if entry in self.url_entries:
+            self.url_entries.remove(entry)
+        if row_frame in self.url_row_frames:
+            self.url_row_frames.remove(row_frame)
+        self._update_url_count_badge()
+
+    def _paste_into_entry(self, entry_widget):
+        """Panodakı linki birbaşa hədəf sətirə yapışdırır."""
+        try:
+            txt = self.clipboard_get().strip()
+            entry_widget.delete(0, "end")
+            entry_widget.insert(0, txt)
+        except Exception:
+            pass
 
     def _create_preview_section(self):
         self.preview_frame = ctk.CTkFrame(self.main_container, corner_radius=12)
@@ -863,6 +1055,7 @@ class YouDowApp(ctk.CTk):
 
         # URL bölməsi
         self.url_lbl.configure(text=t["url_label"])
+        self.multi_mode_switch.configure(text=t["multi_mode_switch"])
         self.url_entry.configure(placeholder_text=t["url_placeholder"])
         self.paste_btn.configure(text=t["paste_btn"])
         self.clear_btn.configure(text=t["clear_btn"])
@@ -877,7 +1070,10 @@ class YouDowApp(ctk.CTk):
 
         # Fayl adı
         self.filename_lbl.configure(text=t["filename_label"])
-        self.filename_hint.configure(text=t["filename_hint"])
+        if self.multi_mode_var.get():
+            self.filename_hint.configure(text=t["multi_hint"])
+        else:
+            self.filename_hint.configure(text=t["filename_hint"])
         self.filename_entry.configure(placeholder_text=t["filename_placeholder"])
         self.reset_filename_btn.configure(text=t["reset_btn"])
         self.clear_filename_btn.configure(text=t["clear_btn"])
@@ -1096,10 +1292,17 @@ class YouDowApp(ctk.CTk):
     # -------------------------------------------------------------------------
     def _start_download(self):
         t = LANGUAGES.get(self.current_lang, LANGUAGES["az"])
-        url = self.url_entry.get().strip()
-        if not url:
+
+        # Bütün daxil edilmiş (boş olmayan) linkləri toplayırıq
+        urls = [e.get().strip() for e in self.url_entries if e.get().strip()]
+
+        if not urls:
             messagebox.showwarning(t["warn_title"], t["warn_enter_url"])
             return
+
+        # Maksimum 10 link limiti təminatı
+        if len(urls) > self.max_urls:
+            urls = urls[:self.max_urls]
 
         dest_folder = self.output_dir_var.get().strip()
         if not os.path.exists(dest_folder):
@@ -1127,11 +1330,23 @@ class YouDowApp(ctk.CTk):
         get_subtitles = self.subtitles_var.get()
         custom_filename = self.custom_filename_var.get().strip()
 
-        self.download_thread = threading.Thread(
-            target=self._download_worker,
-            args=(url, dest_folder, mode, opt1, opt2, allow_playlist, get_subtitles, custom_filename),
-            daemon=True
-        )
+        # Əgər tək linkdirsə, adi yükləmə; çoxlu linkdirsə, multi-worker işə düşür
+        if len(urls) == 1:
+            self.current_download_index = 1
+            self.total_download_count = 1
+            self.download_thread = threading.Thread(
+                target=self._download_worker,
+                args=(urls[0], dest_folder, mode, opt1, opt2, allow_playlist, get_subtitles, custom_filename),
+                daemon=True
+            )
+        else:
+            self.total_download_count = len(urls)
+            self.download_thread = threading.Thread(
+                target=self._multi_download_worker,
+                args=(urls, dest_folder, mode, opt1, opt2, allow_playlist, get_subtitles),
+                daemon=True
+            )
+
         self.download_thread.start()
 
     def _cancel_download(self):
@@ -1165,10 +1380,16 @@ class YouDowApp(ctk.CTk):
             size_str = f"{t['size_label']}{format_bytes(downloaded)} / {format_bytes(total)}"
             eta_str = f"{t['eta_label']}{format_seconds(eta)}"
 
+            # Multi rejimdə prefiks: [1/5]
+            if self.total_download_count > 1:
+                status_prefix = f"[{self.current_download_index}/{self.total_download_count}] "
+            else:
+                status_prefix = ""
+
             def _update():
                 self.progress_bar.set(percent)
                 self.percent_lbl.configure(text=percent_str)
-                self.status_lbl.configure(text=f"{t['status_downloading']}{filename}")
+                self.status_lbl.configure(text=f"{status_prefix}{t['status_downloading']}{filename}")
                 self.size_lbl.configure(text=size_str)
                 self.speed_lbl.configure(text=f"{t['speed_label']}{speed_str}")
                 self.eta_lbl.configure(text=eta_str)
@@ -1183,74 +1404,77 @@ class YouDowApp(ctk.CTk):
                 self._append_log("[INFO] Download completed, processing...")
             self.after(0, _finished_download)
 
-    def _download_worker(self, url, dest_folder, mode, opt1, opt2, allow_playlist, get_subtitles, custom_filename):
+    def _build_ydl_opts(self, dest_folder, mode, opt1, opt2, allow_playlist, get_subtitles, filename_template):
+        """yt-dlp parametrlərini hazırlayan köməkçi metod."""
         t = LANGUAGES.get(self.current_lang, LANGUAGES["az"])
+        ffmpeg_bin = get_ffmpeg_path()
+        is_audio = mode == t["mode_audio"] or "Audio" in mode or "Ses" in mode
+
+        if allow_playlist:
+            outtmpl = os.path.join(dest_folder, "%(playlist_title&{}/|)s" + f"{filename_template}.%(ext)s")
+        else:
+            outtmpl = os.path.join(dest_folder, f"{filename_template}.%(ext)s")
+
+        ydl_opts = {
+            'outtmpl': outtmpl,
+            'progress_hooks': [self._progress_hook],
+            'logger': YTDLPLogger(self._append_log),
+            'noplaylist': not allow_playlist,
+            'ignoreerrors': True,
+        }
+
+        if ffmpeg_bin:
+            ydl_opts['ffmpeg_location'] = ffmpeg_bin
+
+        if get_subtitles:
+            ydl_opts['writesubtitles'] = True
+            ydl_opts['writeautomaticsub'] = True
+            ydl_opts['subtitlesformat'] = 'srt/best'
+
+        if is_audio:
+            audio_format = opt1.lower()
+            bitrate_match = re.search(r'\d+', opt2)
+            bitrate = bitrate_match.group(0) if bitrate_match else "192"
+
+            ydl_opts['format'] = 'bestaudio/best'
+            ydl_opts['postprocessors'] = [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': audio_format,
+                'preferredquality': bitrate,
+            }]
+        else:
+            video_format = opt2.lower()
+            res_limit = None
+            if "1080p" in opt1:
+                res_limit = 1080
+            elif "720p" in opt1:
+                res_limit = 720
+            elif "480p" in opt1:
+                res_limit = 480
+            elif "360p" in opt1:
+                res_limit = 360
+
+            if res_limit:
+                ydl_opts['format'] = f'bestvideo[height<={res_limit}]+bestaudio/best[height<={res_limit}]/best'
+            else:
+                ydl_opts['format'] = 'bestvideo+bestaudio/best'
+
+            ydl_opts['merge_output_format'] = video_format
+
+        return ydl_opts
+
+    def _download_worker(self, url, dest_folder, mode, opt1, opt2, allow_playlist, get_subtitles, custom_filename):
+        """Tək video yükləmə axını."""
         try:
-            ffmpeg_bin = get_ffmpeg_path()
-            is_audio = mode == t["mode_audio"] or "Audio" in mode or "Ses" in mode
-
             clean_custom_name = sanitize_filename(custom_filename)
-            if clean_custom_name:
-                filename_template = clean_custom_name
-            else:
-                filename_template = "%(title)s"
+            filename_template = clean_custom_name if clean_custom_name else "%(title)s"
 
-            # Doğrudan seçilmiş qovluğa çıxarış (Heç vaxt "NA" qovluğu açmır)
-            if allow_playlist:
-                outtmpl = os.path.join(dest_folder, "%(playlist_title&{}/|)s" + f"{filename_template}.%(ext)s")
-            else:
-                outtmpl = os.path.join(dest_folder, f"{filename_template}.%(ext)s")
-
-            ydl_opts = {
-                'outtmpl': outtmpl,
-                'progress_hooks': [self._progress_hook],
-                'logger': YTDLPLogger(self._append_log),
-                'noplaylist': not allow_playlist,
-                'ignoreerrors': True,
-            }
-
-            if ffmpeg_bin:
-                ydl_opts['ffmpeg_location'] = ffmpeg_bin
-
-            if get_subtitles:
-                ydl_opts['writesubtitles'] = True
-                ydl_opts['writeautomaticsub'] = True
-                ydl_opts['subtitlesformat'] = 'srt/best'
-
-            if is_audio:
-                audio_format = opt1.lower()
-                bitrate_match = re.search(r'\d+', opt2)
-                bitrate = bitrate_match.group(0) if bitrate_match else "192"
-
-                ydl_opts['format'] = 'bestaudio/best'
-                ydl_opts['postprocessors'] = [{
-                    'key': 'FFmpegExtractAudio',
-                    'preferredcodec': audio_format,
-                    'preferredquality': bitrate,
-                }]
-                self._append_log(f"[MODE] Audio: {audio_format.upper()}, {bitrate}kbps")
-            else:
-                video_format = opt2.lower()
-                res_limit = None
-                if "1080p" in opt1:
-                    res_limit = 1080
-                elif "720p" in opt1:
-                    res_limit = 720
-                elif "480p" in opt1:
-                    res_limit = 480
-                elif "360p" in opt1:
-                    res_limit = 360
-
-                if res_limit:
-                    ydl_opts['format'] = f'bestvideo[height<={res_limit}]+bestaudio/best[height<={res_limit}]/best'
-                else:
-                    ydl_opts['format'] = 'bestvideo+bestaudio/best'
-
-                ydl_opts['merge_output_format'] = video_format
-                self._append_log(f"[MODE] Video: {opt1}, {video_format.upper()}")
+            ydl_opts = self._build_ydl_opts(
+                dest_folder, mode, opt1, opt2, allow_playlist, get_subtitles, filename_template
+            )
 
             self._append_log(f"[STARTED] Dest: {dest_folder}")
-            self._append_log(f"[STARTED] Template: {filename_template}")
+            self._append_log(f"[STARTED] URL: {url}")
 
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([url])
@@ -1263,6 +1487,54 @@ class YouDowApp(ctk.CTk):
                 self.after(0, self._on_download_cancelled)
             else:
                 self.after(0, self._on_download_complete, err_msg)
+
+    def _multi_download_worker(self, urls, dest_folder, mode, opt1, opt2, allow_playlist, get_subtitles):
+        """Çoxlu video yükləmə axını (Maksimum 10 video)."""
+        t = LANGUAGES.get(self.current_lang, LANGUAGES["az"])
+        success_count = 0
+        total = len(urls)
+
+        self._append_log(f"\n{'='*55}\n[MULTI-START] Çoxlu yükləmə başlandı: Cəmi {total} link\n{'='*55}")
+
+        for idx, url in enumerate(urls, 1):
+            if self.cancel_requested:
+                break
+
+            self.current_download_index = idx
+
+            def _set_batch_header(i=idx, tot=total, u=url):
+                self.status_lbl.configure(text=f"[{i}/{tot}] {t['status_preparing']}")
+                self.progress_bar.set(0)
+                self.percent_lbl.configure(text="0%")
+                self.video_title_lbl.configure(text=f"[{i}/{tot}] {u}")
+                self._append_log(f"\n---> [{i}/{tot}] Növbəti link işlənir: {u}")
+
+            self.after(0, _set_batch_header)
+
+            try:
+                # Çoxlu rejimdə hər fayl öz orijinal adı ilə saxlanılır
+                ydl_opts = self._build_ydl_opts(
+                    dest_folder, mode, opt1, opt2, allow_playlist, get_subtitles, "%(title)s"
+                )
+
+                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([url])
+
+                success_count += 1
+                self._append_log(f"[✔ UĞURLU] [{idx}/{total}] Link tamamlandı: {url}")
+
+            except Exception as e:
+                err_msg = str(e)
+                if "DOWNLOAD_CANCELLED_BY_USER" in err_msg:
+                    self._append_log(f"[!] Çoxlu yükləmə istifadəçi tərəfindən dayandırıldı.")
+                    self.after(0, self._on_download_cancelled)
+                    return
+                else:
+                    self._append_log(f"[XƏTA] [{idx}/{total}] Yüklənmədi: {url} -> {err_msg}")
+
+        # Bütün siyahı bitdikdə
+        if not self.cancel_requested:
+            self.after(0, self._on_multi_download_complete, success_count, total)
 
     def _on_download_complete(self, error=None):
         t = LANGUAGES.get(self.current_lang, LANGUAGES["az"])
@@ -1286,6 +1558,23 @@ class YouDowApp(ctk.CTk):
             )
             if resp:
                 self._open_current_directory()
+
+    def _on_multi_download_complete(self, success_count, total_count):
+        t = LANGUAGES.get(self.current_lang, LANGUAGES["az"])
+        self.is_downloading = False
+        self.download_btn.configure(state="normal")
+        self.cancel_btn.configure(state="disabled")
+        self.progress_bar.set(1.0)
+        self.percent_lbl.configure(text="100%")
+
+        status_text = t["batch_done_status"].format(success=success_count, total=total_count)
+        self.status_lbl.configure(text=status_text)
+        self._append_log(f"\n{'='*55}\n{status_text}\n{'='*55}")
+
+        msg = t["batch_complete_msg"].format(success=success_count, total=total_count)
+        resp = messagebox.askyesno(t["complete_title"], msg)
+        if resp:
+            self._open_current_directory()
 
     def _on_download_cancelled(self):
         t = LANGUAGES.get(self.current_lang, LANGUAGES["az"])

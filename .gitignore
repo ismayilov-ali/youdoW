@@ -12,6 +12,7 @@ ENV/
 # PyInstaller / Build outputs
 build/
 dist/
+release/
 *.spec
 *.manifest
 
@@ -30,4 +31,3 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
-

@@ -1,34 +1,39 @@
 # ⚡ YouDow - Modern YouTube Video & Audio Downloader
 
-**YouDow** — Python, **CustomTkinter** və **yt-dlp** əsasında hazırlanmış, müasir Flat/Dark interfeysə malik, çoxdilli (Azərbaycan, English, Türkçe), sürətli, **Multi-URL yükləmə dəstəkli** və istifadəsi olduqca asan olan masaüstü (Desktop) tətbiqidir.
+**YouDow** — Python, **CustomTkinter** və **yt-dlp** əsasında hazırlanmış, müasir Flat/Dark interfeysə malik, çoxdilli (Azərbaycan, English, Türkçe), sürətli, **Multi-URL yükləmə (99 linkədək)** və **MP3 Albom Şəkli (Cover Art)** dəstəkli masaüstü (Desktop) tətbiqidir.
 
 ---
 
 ## 🌟 Əsas Xüsusiyyətlər
 
-1. **⚡ Çoxlu Yükləmə (Multi-Download - Maksimum 10 Link):**
-   - **"Çoxlu Yükləmə (Multi-URL)"** rejimini yandırdıqda URL sətrinin yanında **`➕`** düyməsi görünür.
-   - Hər basdıqda yeni bir URL xanası əlavə olunur (ümumi 10 ədədə qədər).
-   - Hər sətirdə sürətli yapışdırma (`📋`) və silmə (`🗑`) düymələri mövcuddur.
-   - Eyni anda 10 müxtəlif video və ya mahnını tək kliklə növbəli şəkildə yüksək sürətlə yükləyə bilərsiniz.
+1. **⚡ Çoxlu Yükləmə (Multi-Download - 99 Linkə Qədər!):**
+   - **"Çoxlu Yükləmə (Multi-URL)"** rejimini yandırdıqda URL sətrinin yanında **`➕`**, **`📋 Toplu Yapışdır`** və **`🗑 Təmizlə`** düymələri açılır.
+   - **99 Link Limiti:** Eyni anda 99 ədədə qədər video və ya mahnı linkini növbəyə əlavə edə bilərsiniz.
+   - **Toplu Yapışdırma:** İstənilən mətndən və ya fayldan kopyalanmış çoxsaylı YouTube linklərini tək kliklə bütün xanalara paylayır.
+   - Hər sətirdə fərdi yapışdırma (`📋`) və silmə (`🗑`) düymələri mövcuddur.
 
-2. **🌐 3 Dil Dəstəyi (Multilingual):**
+2. **🎵 MP3 və Audio üçün Albom Qapağı (Cover Art / Thumbnail):**
+   - Mahnıları (MP3, M4A, FLAC) yüklədikdə videonun orijinal şəkli avtomatik olaraq mahnının daxilinə **albom qapağı (ID3v2 APIC Cover Art)** və mahnı/müəllif məlumatları kimi inteqrasiya olunur.
+   - Windows Media Player, Groove, telefonlar, avtomobil maqnitolaları və bütün pleyerlərdə mahnının rəsmi örtük şəkli görünür.
+   - İstəyə görə tənzimləmələrdən bu funksiyanı yandırıb-söndürə bilərsiniz.
+
+3. **🌐 3 Dil Dəstəyi (Multilingual):**
    - **Azərbaycan dili**, **English** və **Türkçe**. Proqram daxilində dili dəyişdikdə bütün interfeys, düymələr, bildirişlər və seçimlər dərhal seçilən dilə uyğunlaşır.
 
-3. **✏️ Fərdi Fayl Adı (Custom Filename):**
+4. **✏️ Fərdi Fayl Adı (Custom Filename):**
    - Tək video yükləyərkən videonun adını istədiyiniz kimi dəyişə və ya qısalda bilərsiniz. "↺ Orijinal Ad" düyməsi ilə istənilən vaxt orijinal YouTube başlığına qayıtmaq mümkündür.
 
-4. **📁 İstənilən Qovluğa Birbaşa Çıxarış:**
+5. **📁 İstənilən Qovluğa Birbaşa Çıxarış:**
    - Heç bir lazımsız "NA" və ya kənar alt qovluq yaratmadan, seçdiyiniz qovluğun daxilinə birbaşa və səliqəli şəkildə yazılır.
 
-5. **⚡ Yüksək Sürətli və Donmayan Yükləmə:**
+6. **⚡ Yüksək Sürətli və Donmayan Yükləmə:**
    - Çoxaxınlı (Multi-threaded) arxitektura sayəsində yükləmə zamanı proqram interfeysi tam sərbəst işləyir.
 
-6. **🎬 Geniş Keyfiyyət və Format Seçimi:**
+7. **🎬 Geniş Keyfiyyət və Format Seçimi:**
    - **Video:** Ən yüksək (Best / 4K / 2K), 1080p Full HD, 720p HD, 480p, 360p və **MP4, MKV, WebM** konteynerləri.
    - **Audio:** Yalnız səs faylı olaraq **MP3, M4A, WAV, FLAC** formatlarında və **320kbps, 256kbps, 192kbps, 128kbps** bitreyt seçimləri ilə.
 
-7. **📊 Canlı İrəliləyiş və Statistikalar:**
+8. **📊 Canlı İrəliləyiş və Statistikalar:**
    - Real-vaxt Progress Bar, faiz göstəricisi (%), endirilən həcm, cari yükləmə sürəti (MB/s), qalan təxmini vaxt (ETA) və canlı Terminal/Log konsolu.
 
 ---
@@ -37,7 +42,7 @@
 
 ```text
 youdow/
-├── app.py                   # Əsas masaüstü tətbiq kodu (CustomTkinter GUI + Multi-Download + yt-dlp)
+├── app.py                   # Əsas masaüstü tətbiq kodu (CustomTkinter GUI + Multi-Download + MP3 Cover Art)
 ├── requirements.txt         # Tələb olunan Python kitabxanaları
 ├── download_ffmpeg.py       # FFmpeg və FFprobe-u avtomatik yükləyən köməkçi skript
 ├── build_exe.py             # PyInstaller ilə tək .exe yaradan avtomatik skript
@@ -79,4 +84,4 @@ python create_release_zip.py
 ```
 *(və ya `make_zip.bat` faylına klikləyin)*
 
-Bu əmr `release/` qovluğunda **`YouDow-v1.0-Portable-Windows-x64.zip`** arxivini hazırlayır. Həmin arxivi istənilən istifadəçiyə göndərə və ya **GitHub Releases** bölməsinə yükləyə bilərsiniz.
+Bu əmr `release/` qovluğunda **`YouDow-v1.0-Portable-Windows-x64.zip`** arxivini hazırlayır.

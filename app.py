@@ -2,10 +2,11 @@
 =============================================================================
 YouDow - Modern YouTube Video & Audio Yükləyicisi
 Müəllif: Full-Stack Desktop Specialist
-Texnologiyalar: Python, CustomTkinter, yt-dlp, FFmpeg, Pillow
+Texnologiyalar: Python, CustomTkinter, yt-dlp, FFmpeg, Pillow, Mutagen
 Dillər: Azərbaycan dili (AZ), English (EN), Türkçe (TR)
-Xüsusiyyətlər: Multi-URL Yükləmə (Eyni anda 10 linkə qədər), Format/Keyfiyyət
-               seçimi, Fərdi fayl adı, Təhlükəsiz qovluq çıxarışı
+Xüsusiyyətlər: Multi-URL Yükləmə (Eyni anda 99 linkə qədər), MP3 Albom Şəkli
+               və ID3 tag inteqrasiyası, Format/Keyfiyyət seçimi,
+               Fərdi fayl adı, Təhlükəsiz qovluq çıxarışı
 =============================================================================
 """
 
@@ -45,8 +46,10 @@ LANGUAGES = {
         "url_label": "YouTube Video və ya Playlist Linki:",
         "url_placeholder": "https://www.youtube.com/watch?v=... və ya Playlist linkini bura yapışdırın",
         "multi_mode_switch": "⚡ Çoxlu Yükləmə (Multi-URL)",
-        "add_url_tooltip": "➕ Link Əlavə Et (Maks: 10)",
-        "max_urls_reached": "Maksimum 10 link əlavə edilə bilər!",
+        "add_url_tooltip": "➕ Link Əlavə Et (Maks: 99)",
+        "batch_paste_btn": "📋 Toplu Yapışdır",
+        "clear_all_urls_btn": "🗑 Təmizlə",
+        "max_urls_reached": "Maksimum 99 link əlavə edilə bilər!",
         "multi_hint": "*Çoxlu rejimdə hər bir fayl öz orijinal YouTube adı ilə saxlanılacaq",
         "paste_btn": "📋 Yapışdır",
         "clear_btn": "✖ Təmizlə",
@@ -78,6 +81,7 @@ LANGUAGES = {
         "bitrate_128": "128 kbps",
         "playlist_checkbox": "Əgər playlist linkidirsə, bütün videoları yüklə",
         "subtitles_checkbox": "Altyazıları yüklə (mövcuddursa)",
+        "album_art_checkbox": "🎵 Albom qapağını (şəklini) MP3-ə əlavə et",
         "dest_label": "Saxlanılacaq Qovluq (İstənilən Qovluğu Seçə Bilərsiniz):",
         "browse_btn": "📂 Qovluq Seç",
         "open_dir_btn": "🚀 Qovluğu Aç",
@@ -122,8 +126,10 @@ LANGUAGES = {
         "url_label": "YouTube Video or Playlist URL:",
         "url_placeholder": "https://www.youtube.com/watch?v=... or paste playlist link here",
         "multi_mode_switch": "⚡ Multi-Download (Batch URLs)",
-        "add_url_tooltip": "➕ Add URL (Max: 10)",
-        "max_urls_reached": "Maximum 10 URLs can be added!",
+        "add_url_tooltip": "➕ Add URL (Max: 99)",
+        "batch_paste_btn": "📋 Batch Paste",
+        "clear_all_urls_btn": "🗑 Clear All",
+        "max_urls_reached": "Maximum 99 URLs can be added!",
         "multi_hint": "*In multi mode, files will be saved with their original YouTube titles",
         "paste_btn": "📋 Paste",
         "clear_btn": "✖ Clear",
@@ -155,6 +161,7 @@ LANGUAGES = {
         "bitrate_128": "128 kbps",
         "playlist_checkbox": "If playlist link, download all videos",
         "subtitles_checkbox": "Download subtitles (if available)",
+        "album_art_checkbox": "🎵 Embed album cover into MP3/Audio",
         "dest_label": "Save Directory (Select Any Folder):",
         "browse_btn": "📂 Browse",
         "open_dir_btn": "🚀 Open Folder",
@@ -199,8 +206,10 @@ LANGUAGES = {
         "url_label": "YouTube Video veya Oynatma Listesi Bağlantısı:",
         "url_placeholder": "https://www.youtube.com/watch?v=... veya oynatma listesi linkini yapıştırın",
         "multi_mode_switch": "⚡ Çoklu İndirme (Çoklu URL)",
-        "add_url_tooltip": "➕ Bağlantı Ekle (Maks: 10)",
-        "max_urls_reached": "En fazla 10 bağlantı eklenebilir!",
+        "add_url_tooltip": "➕ Bağlantı Ekle (Maks: 99)",
+        "batch_paste_btn": "📋 Toplu Yapıştır",
+        "clear_all_urls_btn": "🗑 Temizle",
+        "max_urls_reached": "En fazla 99 bağlantı eklenebilir!",
         "multi_hint": "*Çoklu modda dosyalar orijinal YouTube başlıkları ile kaydedilir",
         "paste_btn": "📋 Yapıştır",
         "clear_btn": "✖ Temizle",
@@ -232,6 +241,7 @@ LANGUAGES = {
         "bitrate_128": "128 kbps",
         "playlist_checkbox": "Oynatma listesi bağlantısı ise tüm videoları indir",
         "subtitles_checkbox": "Altyazıları indir (varsa)",
+        "album_art_checkbox": "🎵 Albüm kapağını (resmini) MP3'e ekle",
         "dest_label": "Kayıt Klasörü (İstediğiniz Klasörü Seçebilirsiniz):",
         "browse_btn": "📂 Klasör Seç",
         "open_dir_btn": "🚀 Klasörü Aç",
@@ -352,7 +362,7 @@ class YTDLPLogger:
         self.log_callback = log_callback
 
     def debug(self, msg):
-        if msg.startswith('[download]') or msg.startswith('[ExtractAudio]') or msg.startswith('[Merger]'):
+        if msg.startswith('[download]') or msg.startswith('[ExtractAudio]') or msg.startswith('[Merger]') or msg.startswith('[ThumbnailsConvertor]') or msg.startswith('[EmbedThumbnail]'):
             self.log_callback(f"[MƏLUMAT] {msg}")
 
     def info(self, msg):
@@ -375,7 +385,7 @@ class YouDowApp(ctk.CTk):
 
         # Pəncərənin əsas parametrləri
         self.title("YouDow - Modern YouTube Downloader")
-        self.geometry("960x840")
+        self.geometry("960x850")
         self.minsize(860, 740)
 
         # Standart görünüş rejimi və rəng teması
@@ -385,13 +395,16 @@ class YouDowApp(ctk.CTk):
         # Cari dil (Standart: Azərbaycan dili)
         self.current_lang = "az"
 
-        # Multi-URL vəziyyətləri
+        # Multi-URL vəziyyətləri (Maksimum 99 link)
         self.multi_mode_var = ctk.BooleanVar(value=False)
-        self.max_urls = 10
+        self.max_urls = 99
         self.url_entries = []
         self.url_row_frames = []
         self.current_download_index = 0
         self.total_download_count = 0
+
+        # Albom şəkli (Cover Art) vəziyyəti (Standart olaraq aktiv)
+        self.album_art_var = ctk.BooleanVar(value=True)
 
         # Proqram vəziyyətləri (State variables)
         self.download_thread = None
@@ -426,7 +439,7 @@ class YouDowApp(ctk.CTk):
         # 1. Başlıq, Dil və Tema Keçidi
         self._create_header_section()
 
-        # 2. URL Daxil Etmə Bölməsi (Multi-URL dəstəkli)
+        # 2. URL Daxil Etmə Bölməsi (Multi-URL dəstəkli - 99 linkədək)
         self._create_url_section()
 
         # 3. Video Məlumatı / Önizləmə Kartı (Preview Card)
@@ -521,13 +534,13 @@ class YouDowApp(ctk.CTk):
         )
         self.url_lbl.pack(side="left")
 
-        # Sağ tərəfdə Çoxlu Yükləmə Seçicisi və Sayğac
+        # Sağ tərəfdə Çoxlu Yükləmə Seçicisi və Sayğac (Maks: 99)
         multi_box = ctk.CTkFrame(url_header_row, fg_color="transparent")
         multi_box.pack(side="right")
 
         self.url_count_badge = ctk.CTkLabel(
             multi_box,
-            text="(1/10)",
+            text="(1/99)",
             font=ctk.CTkFont(size=12, weight="bold"),
             text_color=("#1f538d", "#3a86ff")
         )
@@ -570,6 +583,28 @@ class YouDowApp(ctk.CTk):
             command=self._add_url_row
         )
 
+        # Toplu Yapışdır düyməsi (Yalnız çoxlu rejimdə aktivləşir)
+        self.batch_paste_btn = ctk.CTkButton(
+            self.first_input_row,
+            text=self.t("batch_paste_btn"),
+            width=115,
+            height=40,
+            fg_color="#3a86ff",
+            hover_color="#2563eb",
+            command=self._batch_paste
+        )
+
+        # Bütün sətirləri təmizlə düyməsi (Yalnız çoxlu rejimdə aktivləşir)
+        self.clear_all_urls_btn = ctk.CTkButton(
+            self.first_input_row,
+            text=self.t("clear_all_urls_btn"),
+            width=80,
+            height=40,
+            fg_color="#6c757d",
+            hover_color="#495057",
+            command=self._clear_all_urls
+        )
+
         self.paste_btn = ctk.CTkButton(
             self.first_input_row,
             text=self.t("paste_btn"),
@@ -607,18 +642,22 @@ class YouDowApp(ctk.CTk):
     def _pack_first_row_controls(self):
         """1-ci sətir idarəetmə düymələrinin səliqəli yerləşdirilməsi."""
         self.add_url_btn.pack_forget()
+        self.batch_paste_btn.pack_forget()
+        self.clear_all_urls_btn.pack_forget()
         self.paste_btn.pack_forget()
         self.clear_btn.pack_forget()
         self.fetch_btn.pack_forget()
 
         if self.multi_mode_var.get():
-            self.add_url_btn.pack(side="left", padx=(0, 8))
+            self.add_url_btn.pack(side="left", padx=(0, 6))
+            self.batch_paste_btn.pack(side="left", padx=(0, 6))
+            self.clear_all_urls_btn.pack(side="left", padx=(0, 6))
             self.url_count_badge.pack(side="left")
         else:
             self.url_count_badge.pack_forget()
 
-        self.paste_btn.pack(side="left", padx=(0, 8))
-        self.clear_btn.pack(side="left", padx=(0, 8))
+        self.paste_btn.pack(side="left", padx=(0, 6))
+        self.clear_btn.pack(side="left", padx=(0, 6))
         self.fetch_btn.pack(side="left")
 
     def _on_multi_mode_toggle(self):
@@ -631,7 +670,6 @@ class YouDowApp(ctk.CTk):
             self._update_url_count_badge()
         else:
             self.filename_hint.configure(text=self.t("filename_hint"))
-            # Əlavə sətirləri təmizləyirik
             for rf in list(self.url_row_frames):
                 rf.destroy()
             self.url_row_frames.clear()
@@ -646,8 +684,8 @@ class YouDowApp(ctk.CTk):
         else:
             self.add_url_btn.configure(state="normal")
 
-    def _add_url_row(self):
-        """Yeni bir URL giriş sətri əlavə edir (Maksimum 10 ədəd)."""
+    def _add_url_row(self, initial_text=""):
+        """Yeni bir URL giriş sətri əlavə edir (Maksimum 99 ədəd)."""
         current_count = len(self.url_entries)
         if current_count >= self.max_urls:
             messagebox.showwarning(self.t("warn_title"), self.t("max_urls_reached"))
@@ -676,6 +714,9 @@ class YouDowApp(ctk.CTk):
             font=ctk.CTkFont(size=13)
         )
         entry.pack(side="left", fill="x", expand=True, padx=(0, 6))
+
+        if initial_text:
+            entry.insert(0, initial_text)
 
         # Yapışdır düyməsi
         paste_btn = ctk.CTkButton(
@@ -711,6 +752,58 @@ class YouDowApp(ctk.CTk):
         if row_frame in self.url_row_frames:
             self.url_row_frames.remove(row_frame)
         self._update_url_count_badge()
+
+    def _clear_all_urls(self):
+        """Bütün əlavə edilmiş URL sətirlərini təmizləyir və sıfırlayır."""
+        self.url_entry.delete(0, "end")
+        for rf in list(self.url_row_frames):
+            rf.destroy()
+        self.url_row_frames.clear()
+        self.url_entries = [self.url_entry]
+        self._update_url_count_badge()
+
+    def _batch_paste(self):
+        """Panodakı bütün linkləri (sətir-sətir ayrılmış) avtomatik çoxlu sətir kimi əlavə edir."""
+        try:
+            raw_text = self.clipboard_get()
+            if not raw_text:
+                return
+
+            lines = [l.strip() for l in raw_text.splitlines() if l.strip()]
+            valid_urls = []
+            for line in lines:
+                for token in line.split():
+                    if "http://" in token or "https://" in token or "youtu" in token:
+                        valid_urls.append(token)
+
+            if not valid_urls:
+                valid_urls = lines
+
+            if not valid_urls:
+                return
+
+            added_count = 0
+            for url in valid_urls:
+                if len(self.url_entries) >= self.max_urls:
+                    break
+
+                # İlk boş sətir varsa onu doldur
+                filled = False
+                for ent in self.url_entries:
+                    if not ent.get().strip():
+                        ent.insert(0, url)
+                        filled = True
+                        added_count += 1
+                        break
+
+                if not filled and len(self.url_entries) < self.max_urls:
+                    self._add_url_row(initial_text=url)
+                    added_count += 1
+
+            self._update_url_count_badge()
+            self._append_log(f"[INFO] Toplu Yapışdırma: {added_count} link xanalara əlavə edildi.")
+        except Exception:
+            pass
 
     def _paste_into_entry(self, entry_widget):
         """Panodakı linki birbaşa hədəf sətirə yapışdırır."""
@@ -889,7 +982,7 @@ class YouDowApp(ctk.CTk):
             variable=self.playlist_var,
             font=ctk.CTkFont(size=12)
         )
-        self.playlist_checkbox.pack(side="left", padx=(0, 20))
+        self.playlist_checkbox.pack(side="left", padx=(0, 18))
 
         self.subtitles_var = ctk.BooleanVar(value=False)
         self.subtitles_checkbox = ctk.CTkCheckBox(
@@ -898,7 +991,16 @@ class YouDowApp(ctk.CTk):
             variable=self.subtitles_var,
             font=ctk.CTkFont(size=12)
         )
-        self.subtitles_checkbox.pack(side="left")
+        self.subtitles_checkbox.pack(side="left", padx=(0, 18))
+
+        # Albom şəkli (Cover Art) Seçimi
+        self.album_art_checkbox = ctk.CTkCheckBox(
+            extra_row,
+            text=self.t("album_art_checkbox"),
+            variable=self.album_art_var,
+            font=ctk.CTkFont(size=12)
+        )
+        self.album_art_checkbox.pack(side="left")
 
     def _create_destination_section(self):
         dest_frame = ctk.CTkFrame(self.main_container, corner_radius=12)
@@ -1057,6 +1159,8 @@ class YouDowApp(ctk.CTk):
         self.url_lbl.configure(text=t["url_label"])
         self.multi_mode_switch.configure(text=t["multi_mode_switch"])
         self.url_entry.configure(placeholder_text=t["url_placeholder"])
+        self.batch_paste_btn.configure(text=t["batch_paste_btn"])
+        self.clear_all_urls_btn.configure(text=t["clear_all_urls_btn"])
         self.paste_btn.configure(text=t["paste_btn"])
         self.clear_btn.configure(text=t["clear_btn"])
         self.fetch_btn.configure(text=t["fetch_btn"])
@@ -1089,6 +1193,7 @@ class YouDowApp(ctk.CTk):
 
         self.playlist_checkbox.configure(text=t["playlist_checkbox"])
         self.subtitles_checkbox.configure(text=t["subtitles_checkbox"])
+        self.album_art_checkbox.configure(text=t["album_art_checkbox"])
 
         # Qovluq bölməsi
         self.dest_lbl.configure(text=t["dest_label"])
@@ -1300,7 +1405,7 @@ class YouDowApp(ctk.CTk):
             messagebox.showwarning(t["warn_title"], t["warn_enter_url"])
             return
 
-        # Maksimum 10 link limiti təminatı
+        # Maksimum 99 link limiti təminatı
         if len(urls) > self.max_urls:
             urls = urls[:self.max_urls]
 
@@ -1380,7 +1485,7 @@ class YouDowApp(ctk.CTk):
             size_str = f"{t['size_label']}{format_bytes(downloaded)} / {format_bytes(total)}"
             eta_str = f"{t['eta_label']}{format_seconds(eta)}"
 
-            # Multi rejimdə prefiks: [1/5]
+            # Multi rejimdə prefiks: [1/15]
             if self.total_download_count > 1:
                 status_prefix = f"[{self.current_download_index}/{self.total_download_count}] "
             else:
@@ -1437,11 +1542,34 @@ class YouDowApp(ctk.CTk):
             bitrate = bitrate_match.group(0) if bitrate_match else "192"
 
             ydl_opts['format'] = 'bestaudio/best'
-            ydl_opts['postprocessors'] = [{
+
+            postprocessors = [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': audio_format,
                 'preferredquality': bitrate,
             }]
+
+            # Albom şəkli (Cover Art / Thumbnail) və ID3 Metadata inteqrasiyası
+            if self.album_art_var.get() and ffmpeg_bin:
+                ydl_opts['writethumbnail'] = True
+                postprocessors.extend([
+                    {
+                        'key': 'FFmpegThumbnailsConvertor',
+                        'format': 'jpg',
+                    },
+                    {
+                        'key': 'FFmpegMetadata',
+                        'add_metadata': True,
+                    },
+                    {
+                        'key': 'EmbedThumbnail',
+                        'already_have_thumbnail': False,
+                    },
+                ])
+                self._append_log("[PARAMETR] Albom şəkli (Cover Art) və ID3 meta məlumatları aktivdir [✔]")
+
+            ydl_opts['postprocessors'] = postprocessors
+
         else:
             video_format = opt2.lower()
             res_limit = None
@@ -1489,7 +1617,7 @@ class YouDowApp(ctk.CTk):
                 self.after(0, self._on_download_complete, err_msg)
 
     def _multi_download_worker(self, urls, dest_folder, mode, opt1, opt2, allow_playlist, get_subtitles):
-        """Çoxlu video yükləmə axını (Maksimum 10 video)."""
+        """Çoxlu video yükləmə axını (Maksimum 99 video)."""
         t = LANGUAGES.get(self.current_lang, LANGUAGES["az"])
         success_count = 0
         total = len(urls)
